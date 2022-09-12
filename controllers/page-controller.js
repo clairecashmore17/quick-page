@@ -4,6 +4,10 @@ const pageController = {
   // find page with provided code
   findPageWithCode({ params, res }) {
     Page.findOne({ entry_code: params.code })
+      .populate({
+        path: "reactions",
+        select: "-__v",
+      })
       .then((dbPageData) => {
         if (!dbPageData) {
           res.status(404).json({ message: "No page found with this code!" });
